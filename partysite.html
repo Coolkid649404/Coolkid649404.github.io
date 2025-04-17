@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PARTY SITE</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      text-align: center;
+      background-color: black;
+      color: white;
+    }
+
+    #warning {
+      font-size: 28px;
+      font-weight: bold;
+      padding: 50px;
+      opacity: 1;
+      transition: opacity 1s ease;
+    }
+
+    #content {
+      display: none;
+      margin-top: 100px;
+    }
+
+    #partyButton {
+      padding: 20px 40px;
+      font-size: 24px;
+      background-color: hotpink;
+      border: none;
+      cursor: pointer;
+      color: white;
+      border-radius: 10px;
+    }
+
+    #partyText {
+      font-size: 36px;
+      display: none;
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="warning">WARNING! THIS WEBSITE MAY CAUSE SEIZURES.</div>
+
+  <div id="content">
+    <button id="partyButton">PARTY BUTTON</button>
+    <div id="partyText">PARTY TIME!</div>
+  </div>
+
+  <!-- Dubstep audio (looping) -->
+  <audio id="dubstep" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
+  <!-- Confetti JS -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    // Show warning, then fade
+    setTimeout(() => {
+      document.getElementById('warning').style.opacity = 0;
+    }, 3000);
+
+    setTimeout(() => {
+      document.getElementById('warning').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+    }, 4000);
+
+    document.getElementById('partyButton').addEventListener('click', () => {
+      document.getElementById('partyButton').style.display = 'none';
+      document.getElementById('partyText').style.display = 'block';
+
+      // Flash background colors
+      setInterval(() => {
+        document.body.style.backgroundColor =
+          'rgb(' +
+          Math.floor(Math.random() * 256) + ',' +
+          Math.floor(Math.random() * 256) + ',' +
+          Math.floor(Math.random() * 256) + ')';
+      }, 5);
+
+      // Play dubstep
+      const dubstep = document.getElementById('dubstep');
+      dubstep.play().catch((e) => {
+        console.error("Audio play failed:", e);
+        alert("Audio couldn't play. Please try reloading the page and clicking the button again.");
+      });
+
+      // Launch confetti for 1.5 seconds
+      const duration = 1500;
+      const end = Date.now() + duration;
+
+      (function frame() {
+        confetti({
+          particleCount: 8,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 }
+        });
+        confetti({
+          particleCount: 8,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 }
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
+    });
+  </script>
+</body>
+</html>
